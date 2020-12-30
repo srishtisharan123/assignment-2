@@ -1,0 +1,88 @@
+----------------------------TASK 2Answers   ------------------------------------
+1) Write a query to find the root node
+1.SELECT
+    id, title
+FROM
+    shop
+WHERE
+    parent_id IS NULL;
+
+
+
+
+
+
+
+2) Write a query to find leaf node.
+2.SELECT
+    s1.id, s1.title
+FROM
+    shop s1
+        LEFT JOIN
+    shop s2 ON s2.parent_id = s1.id
+WHERE
+    s2.id IS NULL;
+
+
+
+
+3) Write a query to find non-leaf node.
+
+3.SELECT
+   DISTINCT( s1.id), s1.title
+FROM
+    shop s1
+        INNER JOIN
+    shop s2 ON s2.parent_id = s1.id
+WHERE
+    s2.id IS NOT NULL
+
+
+
+
+
+
+
+
+
+4) Write a query to find the path of each node. 
+4.WITH RECURSIVE shop_path (id, title, path) AS
+(
+  SELECT id, title, title as path
+    FROM shop
+    WHERE parent_id IS NULL
+  UNION ALL
+  SELECT c.id, c.title, CONCAT(cp.path, ' > ', c.title)
+    FROM shop_path AS cp JOIN shop AS c
+      ON cp.id = c.parent_id
+)
+SELECT * FROM shop_path
+ORDER BY path
+
+
+
+
+
+5) Write a function to calculate node level. e.g. Electronics is at 0 level, Camera is on level 2 and iOs is on level 3.
+5.WITH RECURSIVE shop_path (id, title, lvl) AS
+(
+  SELECT id, title, 0 lvl
+    FROM shop
+    WHERE parent_id IS NULL
+  UNION ALL
+  SELECT c.id, c.title,cp.lvl + 1
+    FROM shop_path AS cp JOIN shop AS c
+      ON cp.id = c.parent_id
+)
+SELECT * FROM shop_path
+ORDER BY lvl
+
+
+
+
+
+
+
+
+6) Write a procedure to get the immediate children
+6.CREATE PROCEDURE `myf`(IN `mid` INT(5)) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER BEGIN select id,title from shop where id=mid; END
