@@ -1,4 +1,53 @@
 ----------------------------TASK 2Answers   ------------------------------------
+Create a tree structure in MySql table that could store the following tree structure:
+http://prnt.sc/wcbzth 
+
+CREATE TABLE shop (
+  id int(5) unsigned NOT NULL AUTO_INCREMENT,
+  title varchar(30) NOT NULL,
+  parent_id int(5) unsigned DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (parent_id) REFERENCES shop (id) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO shop(title,parent_id)  VALUES('Electronics',NULL);
+
+INSERT INTO shop(title,parent_id) VALUES('Laptops & PC',1);
+
+INSERT INTO shop(title,parent_id) VALUES('Laptops',2);
+
+INSERT INTO shop(title,parent_id) VALUES('PC',2);
+
+INSERT INTO shop(title,parent_id) VALUES('Cameras & photo',1);
+
+INSERT INTO shop(title,parent_id) VALUES('Camera',5);
+
+INSERT INTO shop(title,parent_id) VALUES('Phones & Accessories',1);
+
+INSERT INTO shop(title,parent_id) VALUES('Smartphones',7);
+
+INSERT INTO shop(title,parent_id) VALUES('Android',8);
+
+INSERT INTO shop(title,parent_id) VALUES('iOS',8);
+
+INSERT INTO shop(title,parent_id) VALUES('Other Smartphones',8);
+
+INSERT INTO shop(title,parent_id) VALUES('Batteries',7);
+
+INSERT INTO shop(title,parent_id) VALUES('Headsets',7);
+
+INSERT INTO shop(title,parent_id) VALUES('Screen Protectors',7);
+
+
+
+
+
+
+
+
+
+
 1) Write a query to find the root node
 1.SELECT
     id, title
